@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -64,7 +65,7 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
         if (location != null) {
             mLastLocation = location;
             Log.i(TAG, "New Location..." + location.toString());
-            getLocation();
+            getLocation(null);
         }
     }
 
@@ -72,7 +73,7 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
      * Location Provider as called by JS
      */
     @ReactMethod
-    public void getLocation() {
+    public void getLocation(Callback callback) {
         if (mLastLocation != null) {
             try {
                 double Longitude;
@@ -91,9 +92,19 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
 
                 // Send Event to JS to update Location
                 sendEvent(mReactContext, "updateLocation", params);
+
+                if(callback != null) {
+                    callback.invoke(null, params);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Location services disconnected.");
+
+                if(callback != null) {
+                    callback.invoke("error");
+                }
+
             }
         }
     }
