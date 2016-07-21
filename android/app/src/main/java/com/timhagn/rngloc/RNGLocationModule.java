@@ -1,17 +1,20 @@
 package com.timhagn.rngloc;
 
 import android.location.Location;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.google.android.gms.location.LocationAvailability;
 
 /**
  * Created by hagn on 11/5/15.
@@ -19,7 +22,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
  * Simple React Native Module for accessing Android Location Services by way of Google Play Services
  *
  */
-public class RNGLocationModule extends ReactContextBaseJavaModule implements LocationProvider.LocationCallback {
+public class RNGLocationModule extends ReactContextBaseJavaModule implements LocationProvider.LocationCallback, LifecycleEventListener {
     // React Class Name as called from JS
     public static final String REACT_CLASS = "RNGLocation";
     // Unique Name for Log TAG
@@ -49,6 +52,9 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
             mLocationProvider.connect();
             Log.i(TAG, "Location Provider successfully created.");
         }
+
+        reactContext.addLifecycleEventListener(this);
+
     }
 
 
@@ -65,15 +71,38 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
         if (location != null) {
             mLastLocation = location;
             Log.i(TAG, "New Location..." + location.toString());
-            getLocation(null);
+            getLocation();
         }
+    }
+
+    @Override
+    public void onHostPause() {
+        // Disable background updates
+        mLocationProvider.disconnect();
+    }
+
+    @Override
+    public void onHostResume() {
+        // Renable when back in foreground
+        mLocationProvider.connect();
+    }
+
+    @Override
+    public void onHostDestroy() {
+
+    }
+
+    @ReactMethod
+    public void isLocationAvailable(Callback callback) {
+        LocationAvailability locationAvailability = mLocationProvider.getLocationAvailability();
+        callback.invoke(locationAvailability.isLocationAvailable());
     }
 
     /*
      * Location Provider as called by JS
      */
     @ReactMethod
-    public void getLocation(Callback callback) {
+    public void getLocation() {
         if (mLastLocation != null) {
             try {
                 double Longitude;
@@ -82,6 +111,7 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
                 // Receive Longitude / Latitude from (updated) Last Location
                 Longitude = mLastLocation.getLongitude();
                 Latitude = mLastLocation.getLatitude();
+                float accuracy = mLastLocation.getAccuracy();
 
                 Log.i(TAG, "Got new location. Lng: " + Longitude+" Lat: " + Latitude);
 
@@ -89,22 +119,14 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
                 WritableMap params = Arguments.createMap();
                 params.putDouble("Longitude", Longitude);
                 params.putDouble("Latitude", Latitude);
+                params.putDouble("Accuracy", (double)accuracy);
 
                 // Send Event to JS to update Location
                 sendEvent(mReactContext, "updateLocation", params);
 
-                if(callback != null) {
-                    callback.invoke(null, params);
-                }
-
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Location services disconnected.");
-
-                if(callback != null) {
-                    callback.invoke("error");
-                }
-
             }
         }
     }
