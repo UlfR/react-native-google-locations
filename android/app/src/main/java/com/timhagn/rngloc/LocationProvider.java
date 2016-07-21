@@ -47,6 +47,8 @@ public class LocationProvider implements
     private LocationRequest mLocationRequest;
     // Are we Connected?
     public Boolean connected;
+    // Do we have play services?
+    private Boolean hasPlayServices;
 
     public LocationProvider(Context context, LocationCallback updateCallback) {
         // Save current Context
@@ -69,6 +71,13 @@ public class LocationProvider implements
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                     .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                     .setFastestInterval(1000);     // 1 second, in milliseconds
+
+            hasPlayServices = true;
+        }
+        else {
+
+            hasPlayServices = false;
+
         }
     }
 
@@ -93,21 +102,41 @@ public class LocationProvider implements
      * Connects to Google Play Services - Location
      */
     public void connect() {
-        mGoogleApiClient.connect();
+
+        if(hasPlayServices) {
+            mGoogleApiClient.connect();
+        }
+        else {
+            Log.i(TAG, "This device does not support google play services.");
+        }
     }
 
     /**
      * Disconnects to Google Play Services - Location
      */
     public void disconnect() {
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            mGoogleApiClient.disconnect();
+
+        if(hasPlayServices) {
+
+            if (mGoogleApiClient.isConnected()) {
+                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+                mGoogleApiClient.disconnect();
+            }
+
+        }
+        else {
+            Log.i(TAG, "This device does not support google play services.");
         }
     }
 
-    public LocationAvailability getLocationAvailability() {
-        return LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient);
+    public boolean isLocationAvailable() {
+
+        if(hasPlayServices) {
+            return LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).isLocationAvailable();
+        }
+        else {
+            return false;
+        }
     }
 
     @Override

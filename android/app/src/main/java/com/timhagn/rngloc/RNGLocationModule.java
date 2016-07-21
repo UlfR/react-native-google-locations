@@ -94,8 +94,7 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
 
     @ReactMethod
     public void isLocationAvailable(Callback callback) {
-        LocationAvailability locationAvailability = mLocationProvider.getLocationAvailability();
-        callback.invoke(locationAvailability.isLocationAvailable());
+        callback.invoke(mLocationProvider.isLocationAvailable());
     }
 
     /*
