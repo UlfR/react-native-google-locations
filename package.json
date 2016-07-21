@@ -1,8 +1,8 @@
 {
   "name": "react-native-google-location",
-  "version": "0.2.0-post3",
+  "version": "0.2.0-post4",
   "description": "Google Play Services Location Module for React Native Android.",
-  "main": "index.android.js",
+  "main": "index",
   "repository": {
     "type": "git",
     "url": "git+https://timhagn@bitbucket.org/timhagn/react-native-google-locations.git"
