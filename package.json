@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-location",
-  "version": "0.2.0-post4",
+  "version": "0.2.0-post5",
   "description": "Google Play Services Location Module for React Native Android.",
   "main": "index",
   "repository": {
