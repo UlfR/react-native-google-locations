@@ -140,7 +140,7 @@ public class LocationProvider implements
     }
 
     public void reinitIfNeeded() {
-        Location location;
+        Location location = null;
         Log.i(TAG, "Location services reinit.");
         if (this.isInited) return;
 
@@ -162,7 +162,7 @@ public class LocationProvider implements
         }
 
         if (location == null) {
-            Location mLastLocation;
+            Location mLastLocation = null;
             LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
             mLastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (mLastLocation != null) {
