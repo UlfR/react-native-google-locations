@@ -234,7 +234,7 @@ public class LocationProvider implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i(TAG, "Location Changed!");
+        //Log.i(TAG, "Location Changed!");
         // Callback as defined in Module.
         mLocationCallback.handleNewLocation(location);
     }
