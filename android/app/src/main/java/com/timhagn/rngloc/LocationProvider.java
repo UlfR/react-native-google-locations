@@ -140,6 +140,7 @@ public class LocationProvider implements
     }
 
     public void reinitIfNeeded() {
+        Location location;
         Log.i(TAG, "Location services reinit.");
         if (this.isInited) return;
 
@@ -148,7 +149,7 @@ public class LocationProvider implements
         }
 
         try {
-            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (location != null) {
                 mLocationCallback.handleNewLocation(location);
             }
@@ -173,7 +174,6 @@ public class LocationProvider implements
                 }
             }
         }
-
     }
 
     @Override
