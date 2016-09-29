@@ -165,11 +165,11 @@ public class LocationProvider implements
             Location mLastLocation;
             LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
             mLastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (mLastLocation) {
+            if (mLastLocation != null) {
                 mLocationCallback.handleNewLocation(mLastLocation);
             } else {
                 mLastLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if (mLastLocation) {
+                if (mLastLocation != null) {
                     mLocationCallback.handleNewLocation(mLastLocation);
                 }
             }
