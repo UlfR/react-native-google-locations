@@ -30,12 +30,8 @@
         <entry file="file://$PROJECT_DIR$/android/app/src/main/java/com/timhagn/rngloc/RNGLocationModule.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="104" column="47" selection-start-line="104" selection-start-column="47" selection-end-line="104" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#2286#2287#0" expanded="false" />
-                <element signature="e#2320#2321#0" expanded="false" />
-              </folding>
+              <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -43,12 +39,12 @@
       <file leaf-file-name="LocationProvider.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/android/app/src/main/java/com/timhagn/rngloc/LocationProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45762712">
-              <caret line="144" column="29" selection-start-line="144" selection-start-column="29" selection-end-line="144" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.2440678">
+              <caret line="167" column="67" selection-start-line="167" selection-start-column="67" selection-end-line="167" selection-end-column="67" />
               <folding>
-                <element signature="method#onConnected#0;class#LocationProvider#0" expanded="false" />
-                <element signature="method#onConnectionFailed#0;class#LocationProvider#0" expanded="false" />
-                <element signature="method#onLocationChanged#0;class#LocationProvider#0" expanded="false" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#6955#6956#0" expanded="true" />
+                <element signature="e#7015#7016#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -284,6 +280,13 @@
       <updated>1446771798872</updated>
       <workItem from="1461333687727" duration="533000" />
     </task>
+    <task id="LOCAL-00001" summary="try to support a6">
+      <created>1475127481836</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1475127481836</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -294,6 +297,7 @@
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -331,6 +335,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="try to support a6" />
+    <option name="LAST_COMMIT_MESSAGE" value="try to support a6" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
@@ -363,11 +371,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2286#2287#0" expanded="false" />
-            <element signature="e#2320#2321#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -384,9 +388,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="24" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="24" />
           <folding>
-            <element signature="method#onConnected#0;class#LocationProvider#0" expanded="false" />
-            <element signature="method#onConnectionFailed#0;class#LocationProvider#0" expanded="false" />
-            <element signature="method#onLocationChanged#0;class#LocationProvider#0" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#6955#6956#0" expanded="true" />
+            <element signature="e#7015#7016#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -724,23 +728,19 @@
     <entry file="file://$PROJECT_DIR$/android/app/src/main/java/com/timhagn/rngloc/RNGLocationModule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="104" column="47" selection-start-line="104" selection-start-column="47" selection-end-line="104" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2286#2287#0" expanded="false" />
-            <element signature="e#2320#2321#0" expanded="false" />
-          </folding>
+          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/android/app/src/main/java/com/timhagn/rngloc/LocationProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45762712">
-          <caret line="144" column="29" selection-start-line="144" selection-start-column="29" selection-end-line="144" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.2440678">
+          <caret line="167" column="67" selection-start-line="167" selection-start-column="67" selection-end-line="167" selection-end-column="67" />
           <folding>
-            <element signature="method#onConnected#0;class#LocationProvider#0" expanded="false" />
-            <element signature="method#onConnectionFailed#0;class#LocationProvider#0" expanded="false" />
-            <element signature="method#onLocationChanged#0;class#LocationProvider#0" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#6955#6956#0" expanded="true" />
+            <element signature="e#7015#7016#0" expanded="true" />
           </folding>
         </state>
       </provider>

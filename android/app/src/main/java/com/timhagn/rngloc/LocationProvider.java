@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.IntentSender;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -50,6 +51,7 @@ public class LocationProvider implements
     // Do we have play services?
     private Boolean hasPlayServices;
     private Boolean isInited;
+    private LocationManager locationManager;
 
     public LocationProvider(Context context, LocationCallback updateCallback) {
         // Save current Context
@@ -71,8 +73,8 @@ public class LocationProvider implements
             // Create the LocationRequest object
             mLocationRequest = LocationRequest.create()
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(20 * 1000)        // 10 seconds, in milliseconds
-                    .setFastestInterval(2000);     // 1 second, in milliseconds
+                    .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                    .setFastestInterval(1000);     // 1 second, in milliseconds
 
             hasPlayServices = true;
         } else {
@@ -144,6 +146,7 @@ public class LocationProvider implements
         if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
+
         try {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (location != null) {
@@ -156,6 +159,21 @@ public class LocationProvider implements
             Log.i(TAG, "Location services reinit ERROR.");
             e.printStackTrace();
         }
+
+        if (location == null) {
+            Location mLastLocation;
+            LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+            mLastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (mLastLocation) {
+                mLocationCallback.handleNewLocation(mLastLocation);
+            } else {
+                mLastLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (mLastLocation) {
+                    mLocationCallback.handleNewLocation(mLastLocation);
+                }
+            }
+        }
+
     }
 
     @Override
