@@ -18,9 +18,8 @@ import com.google.android.gms.location.LocationAvailability;
 
 /**
  * Created by hagn on 11/5/15.
- *
+ * <p>
  * Simple React Native Module for accessing Android Location Services by way of Google Play Services
- *
  */
 public class RNGLocationModule extends ReactContextBaseJavaModule implements LocationProvider.LocationCallback, LifecycleEventListener {
     // React Class Name as called from JS
@@ -102,6 +101,10 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
      */
     @ReactMethod
     public void getLocation() {
+        if (mLastLocation == null) {
+            mLocationProvider.reinitIfNeeded();
+        }
+
         if (mLastLocation != null) {
             try {
                 double Longitude;
@@ -112,13 +115,13 @@ public class RNGLocationModule extends ReactContextBaseJavaModule implements Loc
                 Latitude = mLastLocation.getLatitude();
                 float accuracy = mLastLocation.getAccuracy();
 
-                Log.i(TAG, "Got new location. Lng: " + Longitude+" Lat: " + Latitude);
+                Log.i(TAG, "Got new location. Lng: " + Longitude + " Lat: " + Latitude);
 
                 // Create Map with Parameters to send to JS
                 WritableMap params = Arguments.createMap();
                 params.putDouble("Longitude", Longitude);
                 params.putDouble("Latitude", Latitude);
-                params.putDouble("Accuracy", (double)accuracy);
+                params.putDouble("Accuracy", (double) accuracy);
 
                 // Send Event to JS to update Location
                 sendEvent(mReactContext, "updateLocation", params);

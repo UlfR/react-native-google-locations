@@ -49,6 +49,7 @@ public class LocationProvider implements
     public Boolean connected;
     // Do we have play services?
     private Boolean hasPlayServices;
+    private Boolean isInited;
 
     public LocationProvider(Context context, LocationCallback updateCallback) {
         // Save current Context
@@ -57,6 +58,7 @@ public class LocationProvider implements
         this.mLocationCallback = updateCallback;
         // Initialize connection "state"
         connected = false;
+        this.isInited = false;
 
         // First we need to check availability of play services
         if (checkPlayServices()) {
@@ -73,8 +75,7 @@ public class LocationProvider implements
                     .setFastestInterval(2000);     // 1 second, in milliseconds
 
             hasPlayServices = true;
-        }
-        else {
+        } else {
 
             hasPlayServices = false;
 
@@ -83,7 +84,7 @@ public class LocationProvider implements
 
     /**
      * Method to verify google play services on the device
-     * */
+     */
     public boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil
                 .isGooglePlayServicesAvailable(mContext);
@@ -103,10 +104,9 @@ public class LocationProvider implements
      */
     public void connect() {
 
-        if(hasPlayServices) {
+        if (hasPlayServices) {
             mGoogleApiClient.connect();
-        }
-        else {
+        } else {
             Log.i(TAG, "This device does not support google play services.");
         }
     }
@@ -116,26 +116,42 @@ public class LocationProvider implements
      */
     public void disconnect() {
 
-        if(hasPlayServices) {
+        if (hasPlayServices) {
 
             if (mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
                 mGoogleApiClient.disconnect();
             }
 
-        }
-        else {
+        } else {
             Log.i(TAG, "This device does not support google play services.");
         }
     }
 
     public boolean isLocationAvailable() {
 
-        if(hasPlayServices) {
+        if (hasPlayServices) {
             return LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).isLocationAvailable();
-        }
-        else {
+        } else {
             return false;
+        }
+    }
+
+    public void reinitIfNeeded() {
+        Log.i(TAG, "Location services reinit.");
+        if (this.isInited) return;
+
+        try {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (location != null) {
+                mLocationCallback.handleNewLocation(location);
+            }
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            this.isInited = true;
+        } catch (Exception e) {
+            this.isInited = false;
+            Log.i(TAG, "Location services reinit ERROR.");
+            e.printStackTrace();
         }
     }
 
@@ -144,18 +160,20 @@ public class LocationProvider implements
         Log.i(TAG, "Location services connected.");
         // We are Connected!
         connected = true;
-        // First, get Last Location and return it to Callback
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            mLocationCallback.handleNewLocation(location);
+        try {
+            // First, get Last Location and return it to Callback
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (location != null) {
+                mLocationCallback.handleNewLocation(location);
+            }
+            // Now request continuous Location Updates
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            this.isInited = true;
+        } catch (Exception e) {
+            this.isInited = false;
+            Log.i(TAG, "Location services connected ERROR.");
+            e.printStackTrace();
         }
-        // Now request continuous Location Updates
-	try {
-        	LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-	} catch(Exception e) {
-        	Log.i(TAG, "Location services connected ERROR.");
-                e.printStackTrace();
-	}
     }
 
     @Override
@@ -173,7 +191,7 @@ public class LocationProvider implements
          */
         if (connectionResult.hasResolution() && mContext instanceof Activity) {
             try {
-                Activity activity = (Activity)mContext;
+                Activity activity = (Activity) mContext;
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
             /*
