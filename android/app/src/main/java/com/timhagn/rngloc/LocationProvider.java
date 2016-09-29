@@ -141,6 +141,9 @@ public class LocationProvider implements
         Log.i(TAG, "Location services reinit.");
         if (this.isInited) return;
 
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
         try {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (location != null) {
