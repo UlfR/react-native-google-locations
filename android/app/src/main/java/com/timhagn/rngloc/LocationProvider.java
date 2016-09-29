@@ -69,8 +69,8 @@ public class LocationProvider implements
             // Create the LocationRequest object
             mLocationRequest = LocationRequest.create()
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                    .setFastestInterval(1000);     // 1 second, in milliseconds
+                    .setInterval(20 * 1000)        // 10 seconds, in milliseconds
+                    .setFastestInterval(2000);     // 1 second, in milliseconds
 
             hasPlayServices = true;
         }
@@ -150,7 +150,12 @@ public class LocationProvider implements
             mLocationCallback.handleNewLocation(location);
         }
         // Now request continuous Location Updates
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+	try {
+        	LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+	} catch(Exception e) {
+        	Log.i(TAG, "Location services connected ERROR.");
+                e.printStackTrace();
+	}
     }
 
     @Override
